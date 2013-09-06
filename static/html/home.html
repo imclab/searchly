@@ -1,0 +1,48 @@
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Searchly</h1>
+    <h2>Search by name on ReadyForce!</h2>
+  </div>
+</div>
+<div class="container" ng-controller="SearchCtrl">
+  <form class="text-center" ng-submit="searchName()">
+    <div class="row">
+      <input type="search" class="form-control" placeholder="Search" ng-model="nameQuery"/>
+      <button type="submit" class="btn btn-default" ng-disabled="busy">Search</button>
+    </div>
+  </form>
+  <p class="text-center" ng-show="busy">loading...</p>
+  <div ng-show="users" class='text-center'>
+    <p>{{ users.length }} results found for {{ currentQuery }}</p>
+    <p>Sort By:</p>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" ng-click="firstNameSort()">First Name</button>
+      <button type="button" class="btn btn-default" ng-click="lastNameSort()">Last Name</button>
+      <button type="button" class="btn btn-default" ng-click="resetSort()">None</button>
+    </div>
+  </div>
+  <div ng-switch on="nameIndex">
+    <div ng-switch-when="-1">
+      <div ng-repeat="user in users">
+        <div class="text-center">
+          <img ng-src="{{ user.photoUrl }}" height="136" width="136">
+          <h2>{{ user.name }}</h2>
+          <p ng-show="user.description">Description: {{ user.description }}</p>
+          <p ng-show="user.description">Skills: {{ user.skills }}</p>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div ng-switch-default>
+      <div ng-repeat="user in users | orderBy:nameSplit">
+        <div class="text-center">
+          <img ng-src="{{ user.photoUrl }}" height="136" width="136">
+          <h2>{{ user.name }}</h2>
+          <p ng-show="user.description">Description: {{ user.description }}</p>
+          <p ng-show="user.description">Skills: {{ user.skills }}</p>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>
